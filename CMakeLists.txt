@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(SciVis)
 
+set(UI imgui)
 set(SRC learnply)
 set(SOURCES 
     ${SRC}/learnply.cpp
@@ -32,7 +33,13 @@ set(HEADERS
     ${SRC}/project3.h
 )
 
-add_executable(learnply ${SOURCES} ${HEADERS})
+file(GLOB_RECURSE SRC_UI
+    "${UI}/*.cpp"
+    "${UI}/*.h"
+)
+
+add_executable(learnply ${SOURCES} ${HEADERS} ${SRC_UI})
+source_group("ui"            FILES ${SRC_UI})
 
 if(WIN32)
 	set(FREEGLUT ${CMAKE_CURRENT_SOURCE_DIR}/libraries/freeglut-3.0.0)
@@ -41,6 +48,7 @@ if(WIN32)
 	target_include_directories(learnply PRIVATE
 		${FREEGLUT}/include
 		${GLEW}/include
+                ${UI}
 	)
 
 	target_link_directories(learnply PRIVATE
@@ -69,8 +77,9 @@ else()
 
 	target_include_directories(learnply PRIVATE
 		${OPENGL_INCLUDE_DIRS}
-        ${GLUT_INCLUDE_DIRS}
+                ${GLUT_INCLUDE_DIRS}
 		${GLEW_INCLUDE_DIRS}
+                ${UI}
 	)
     
     target_link_libraries(learnply PRIVATE
