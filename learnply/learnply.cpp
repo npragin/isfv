@@ -126,9 +126,20 @@ int main(int argc, char* argv[])
 	/*initialize openGL*/
 	init();
 
+	/*the render function and callback registration*/
+	glutKeyboardFunc(keyboard);
+	glutDisplayFunc(display);
+	glutMotionFunc(motion);
+	glutPassiveMotionFunc(motion);
+	glutMouseFunc(mouse);
+#ifdef _WIN32
+	glutMouseWheelFunc(mousewheel);
+#endif //_WIN32
+	glutSpecialFunc(special);
+	glutReshapeFunc(ImGui_ImplGLUT_ReshapeFunc);
+	//glutReshapeFunc(reshape);
+	
 	/*ui code start*/
-	glutDisplayFunc(MainLoopStep);
-
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -136,26 +147,14 @@ int main(int argc, char* argv[])
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 
 	ImGui::StyleColorsDark();
-	
+
 	ImGui_ImplGLUT_Init();
 	ImGui_ImplOpenGL3_Init();
-	ImGui_ImplGLUT_InstallFuncs();
 	/*ui code end*/
-
-	/*the render function and callback registration*/
-//	glutKeyboardFunc(keyboard);
-//	glutDisplayFunc(display);
-//	glutMotionFunc(motion);
-//	glutMouseFunc(mouse);
-//#ifdef _WIN32
-//	glutMouseWheelFunc(mousewheel);
-//#endif //_WIN32
-//	glutSpecialFunc(special);
-//	glutReshapeFunc(reshape);
-//
-//	/*event processing loop*/
+	
+	/*event processing loop*/
 	glutMainLoop();
-//	
+	
 	/*clear memory before exit*/
 	poly->finalize();	// finalize everything
 	if (ibfv)
@@ -167,7 +166,6 @@ int main(int argc, char* argv[])
 	delete(poly);
 	
 	/*cleanup ui*/
-	// Cleanup
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGLUT_Shutdown();
 	ImGui::DestroyContext();
@@ -226,12 +224,12 @@ void MainLoopStep()
 
 	// Rendering
 	ImGui::Render();
-	glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
-	glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
+	//glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+	//glClear(GL_COLOR_BUFFER_BIT);
 	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound, but prefer using the GL3+ code.
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+	
 	glutSwapBuffers();
 	glutPostRedisplay();
 }
@@ -526,6 +524,12 @@ Callback function for dragging mouse
 ******************************************************************************/
 
 void motion(int x, int y) {
+	ImGuiIO& io = ImGui::GetIO();
+	io.AddMousePosEvent(x, y);
+	// Early return if mouse over window
+	if (io.WantCaptureMouse)
+		return;
+	
 	float r[4];
 	float s, t;
 
@@ -570,11 +574,15 @@ Callback function for mouse clicks
 ******************************************************************************/
 
 void mouse(int button, int state, int x, int y) {
-
+	ImGuiIO& io = ImGui::GetIO();
+	io.AddMouseButtonEvent(button, !state);
+	// Early return if mouse over window
+	if (io.WantCaptureMouse)
+		return;
+	
 	int key = glutGetModifiers();
-
 	if (button == GLUT_LEFT_BUTTON || button == GLUT_RIGHT_BUTTON) {
-		
+
 		if (state == GLUT_DOWN) {
 			float xsize = (float)win_width;
 			float ysize = (float)win_height;
@@ -785,7 +793,10 @@ void display(void)
 	drawSelectedVertex(poly);
 
 	glFlush();
-	glutSwapBuffers();
+	// MainLoop is handling the swapping of buffers
+	// Don't love that but it works...
+	MainLoopStep();
+	//glutSwapBuffers();
 	glFinish();
 
 	CHECK_GL_ERROR();
