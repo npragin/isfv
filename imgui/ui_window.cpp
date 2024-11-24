@@ -29,13 +29,17 @@ void divergent_window(color_choices* colors)
 
 void multi_hue_window(color_choices* colors)
 {
-	int value = 2;
-	create_and_push_color(colors, value);
-	if (ImGui::Button("Add Hue")) // Buttons return true when clicked (most widgets return true when edited/activated)
-		value++;
+	if (colors->multi_hue_count == 0) {  // Initialize if not set
+        colors->multi_hue_count = 2;
+    }
+	
+	if (ImGui::Button("Add Hue") && colors->multi_hue_count < 9) // Buttons return true when clicked (most widgets return true when edited/activated)
+		colors->multi_hue_count++;
 	ImGui::SameLine();
-	if (ImGui::Button("Remove Hue") && value > 2)                            
-		value--;
+	if (ImGui::Button("Remove Hue") && colors->multi_hue_count > 2)                            
+		colors->multi_hue_count--;
+
+	create_and_push_color(colors, colors->multi_hue_count);
 }
 
 void rainbow_window(color_choices* colors)

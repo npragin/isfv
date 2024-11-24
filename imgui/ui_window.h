@@ -5,6 +5,7 @@
 struct color_choices {
 	std::vector<std::array<float, 3>> all_colors;
 	std::array<float, 3> base_color = { 1.0, 1.0, 1.0 };
+	int multi_hue_count;
 	float log_lab = 0.0;
 };
 
