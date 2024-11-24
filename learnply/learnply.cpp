@@ -396,6 +396,13 @@ Process a keyboard action.  In particular, exit the program when an
 
 void keyboard(unsigned char key, int x, int y) 
 {
+	std::cout << key << std::endl;
+	ImGuiIO& io = ImGui::GetIO();
+	io.AddInputCharacterUTF16(key);
+	// Early return if mouse over window
+	if (io.WantCaptureKeyboard && key != 27)
+		return;
+	
 	switch (key) 
 	{
 	case 27: // escape key to exit program
