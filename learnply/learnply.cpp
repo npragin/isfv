@@ -54,7 +54,7 @@ display mode 7-?: your visualizations
 int display_mode = 1;
 
 // toggle height field with the 'h' key
-bool use_height = false;
+static bool use_height = false;
 // toggle scalar field topology with the 's' key
 bool draw_stopo = false;
 
@@ -188,7 +188,12 @@ void MainLoopStep()
 	// Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
 	{
 		ImGui::Begin("Color Scheme");                          // Create a window called "Color Scheme" and append into it.
-
+		// Checkbox for height
+		ImGui::Checkbox("Show Height", &use_height);
+		if (use_height)
+			height(poly);
+		else
+			resetHeight(poly);
 		// Choose color-scheme
 		const char* items[] = { "Single-hue", "Divergent", "Multi-hue", "Rainbow" };
 		static int current_index = 0;
@@ -230,6 +235,7 @@ void MainLoopStep()
 			break;
 		}
 		ImGui::Text("Log-LAB length: %.2f", choices.log_lab);
+		// End window
 		ImGui::End();
 	}
 
