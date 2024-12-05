@@ -11,14 +11,12 @@ void applyCustomSingleHue(Polyhedron* poly, icVector3& color) {
     for (auto i = 0; i < poly->nverts; i++) {
         auto& vertex = poly->vlist[i];
         double s_v = vertex->scalar;
-        double intensity = (s_v - m) / (M - m);
 
 		// Keep hue constant, vary saturation and value
-        double new_saturation = 1.0 - intensity;
-        double new_value = intensity;
+		double intensity = (s_v - m) / (M - m);
         
         // Convert back to RGB
-		icVector3 newHSV(M_hsv.x, new_saturation, new_value);
+		icVector3 newHSV(M_hsv.x, intensity, intensity);
         icVector3 new_RGB;
         HSVtoRGB(newHSV, new_RGB);
 
@@ -184,7 +182,7 @@ void HSVtoRGB(icVector3& hsv, icVector3& rgb) {
 	double s = hsv.y;
 	double v = hsv.z;
 
-	double C = s + v;
+	double C = s * v;
 	double X = C * (1 - abs(fmod(h / 60, 2) - 1));
 	double m = v - C;
 

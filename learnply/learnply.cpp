@@ -782,7 +782,7 @@ void display(void)
 	switch (display_mode)
 	{
 	case 1:
-		drawSolid(poly);
+		drawVertColors(poly);
 		break;
 	case 2:
 		drawWirefriame(poly);
