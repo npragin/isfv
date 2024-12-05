@@ -104,8 +104,7 @@ void height(Polyhedron* poly) {
 	}
 }
 
-void resetHeight(Polyhedron* poly)
-{
+void resetHeight(Polyhedron* poly) {
 	for (auto i = 0; i < poly->nverts; i++)
 		poly->vlist[i]->z = 0;
 }
