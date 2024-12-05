@@ -2,7 +2,7 @@
 #include "polyhedron.h"
 
 // Final
-void applyCustomSingleHue(Polyhedron* poly, const icVector3& color);
+void applyCustomSingleHue(Polyhedron* poly, icVector3& color);
 
 // q1
 void greyscale(Polyhedron* poly);
