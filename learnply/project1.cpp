@@ -1,7 +1,7 @@
 #include "project1.h"
 #include <algorithm>
 
-void applyCustomSingleHue(Polyhedron* poly, const icVector3& color) {
+void applyCustomSingleHue(Polyhedron* poly, icVector3& color) {
     double M, m;
     findMm(poly, M, m);
 
@@ -137,7 +137,7 @@ void resetHeight(Polyhedron* poly) {
 }
 
 
-void RGBtoHSV(icVector3& hsv, const icVector3& rgb) {
+void RGBtoHSV(icVector3& hsv, icVector3& rgb) {
 
 	double r = rgb.x;
 	double g = rgb.y;
@@ -178,7 +178,7 @@ void RGBtoHSV(icVector3& hsv, const icVector3& rgb) {
 	v = cmax;
 }
 
-void HSVtoRGB(const icVector3& hsv, icVector3& rgb) {
+void HSVtoRGB(icVector3& hsv, icVector3& rgb) {
 
 	double h = hsv.x;
 	double s = hsv.y;
