@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
-#include "icVector.h"
+#include "../learnply/icVector.h"
 
 struct color_choices {
 	std::vector<icVector3> all_colors;
