@@ -1,6 +1,9 @@
 #pragma once
 #include "polyhedron.h"
 
+// Final
+void applyCustomSingleHue(Polyhedron* poly, const icVector3& color);
+
 // q1
 void greyscale(Polyhedron* poly);
 

@@ -1,6 +1,33 @@
 #include "project1.h"
 #include <algorithm>
 
+void applyCustomSingleHue(Polyhedron* poly, const icVector3& color) {
+    double M, m;
+    findMm(poly, M, m);
+
+	icVector3 M_hsv;
+	RGBtoHSV(M_hsv, color);
+
+    for (auto i = 0; i < poly->nverts; i++) {
+        auto& vertex = poly->vlist[i];
+        double s_v = vertex->scalar;
+        double intensity = (s_v - m) / (M - m);
+
+		// Keep hue constant, vary saturation and value
+        double new_saturation = 1.0 - intensity;
+        double new_value = intensity;
+        
+        // Convert back to RGB
+		icVector3 newHSV(M_hsv.x, new_saturation, new_value);
+        icVector3 new_RGB;
+        HSVtoRGB(newHSV, new_RGB);
+
+        vertex->R = new_RGB.x;
+        vertex->G = new_RGB.y;
+        vertex->B = new_RGB.z;
+    }
+}
+
 void greyscale(Polyhedron* poly) {
 
 	double M, m;
