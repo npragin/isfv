@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
 #include <array>
+#include "icVector.h"
 
 struct color_choices {
-	std::vector<std::array<float, 3>> all_colors;
-	std::array<float, 3> base_color = { 1.0, 1.0, 1.0 };
+	std::vector<icVector3> all_colors;
+	icVector3 base_color = icVector3(1.0, 1.0, 1.0);
 	int multi_hue_count;
 	float log_lab = 0.0;
 };

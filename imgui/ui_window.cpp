@@ -11,7 +11,7 @@ void create_and_push_color(color_choices* colors, int n)
 		if(i >= colors->all_colors.size())
 			colors->all_colors.push_back(colors->base_color);
 		ImGui::PushID(i);
-		float* color = colors->all_colors[i].data();
+		float* color = new float[3]{(float)colors->all_colors[i].x, (float)colors->all_colors[i].y, (float)colors->all_colors[i].z};
 		ImGui::ColorEdit3("Color", color);
 		ImGui::PopID();
 	}
