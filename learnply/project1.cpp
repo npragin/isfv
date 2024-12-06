@@ -28,6 +28,41 @@ void applyCustomSingleHue(Polyhedron* poly, icVector3& color) {
         vertex->B = new_RGB.z;
     }
 }
+ 
+void applyCustomDivergent(Polyhedron* poly, icVector3& color1, icVector3& color2) {
+	if (!stats.isInitialized)
+		initializeStats(poly);
+
+	icVector3 medianColor = icVector3(1.0, 1.0, 1.0);
+
+	for (int i = 0; i < poly->nverts; i++) {
+		auto& vertex = poly->vlist[i];
+		double s_v = vertex->scalar;
+
+		double t;
+		if (s_v <= stats.median) {
+			if (stats.median == stats.min)
+				t = 0.0;
+			else
+				t = (s_v - stats.min) / (stats.median - stats.min);
+
+			t = (s_v - stats.min) / (stats.median - stats.min);
+			vertex->R = color2.x * (1 - t) + medianColor.x * t;
+			vertex->G = color2.y * (1 - t) + medianColor.y * t;
+			vertex->B = color2.z * (1 - t) + medianColor.z * t;
+		}
+		else {
+			if (stats.max == stats.median)
+				t = 1.0;
+			else
+				t = (s_v - stats.median) / (stats.max - stats.median);
+
+			vertex->R = color1.x * t + medianColor.x * (1 - t);
+			vertex->G = color1.y * t + medianColor.y * (1 - t);
+			vertex->B = color1.z * t + medianColor.z * (1 - t);
+		}
+	}
+}
 
 void greyscale(Polyhedron* poly) {
 

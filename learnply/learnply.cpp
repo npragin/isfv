@@ -229,6 +229,9 @@ void MainLoopStep()
 			break;
 		case 1:
 			divergent_window(&choices);
+			if (!choices.all_colors.empty()) {
+				applyCustomDivergent(poly, choices.all_colors[0], choices.all_colors[1]);
+			}
 			break;
 		case 2:
 			multi_hue_window(&choices);

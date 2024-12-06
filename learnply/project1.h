@@ -3,7 +3,9 @@
 
 // Final
 void applyCustomSingleHue(Polyhedron* poly, icVector3& color);
- 
+
+void applyCustomDivergent(Polyhedron* poly, icVector3& color1, icVector3& color2);
+
 void initializeStats(Polyhedron* poly);
  
 struct DataStats {
