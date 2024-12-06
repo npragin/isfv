@@ -270,6 +270,7 @@ void HSVtoRGB(icVector3& hsv, icVector3& rgb) {
 void initializeStats(Polyhedron* poly) {
 	findMm(poly, stats.max, stats.min);
 	findMedian(poly, stats.median);
+	stats.isInitialized = true;
 }
 
 void findMm(Polyhedron* poly, double& M, double& m) {
