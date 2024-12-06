@@ -35,3 +35,4 @@ void height(Polyhedron* poly);
 void resetHeight(Polyhedron* poly);
 
 void findMm(Polyhedron* poly, double& M, double& m);
+void findMedian(Polyhedron* poly, double& m);

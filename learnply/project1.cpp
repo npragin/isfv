@@ -297,9 +297,9 @@ void findMm(Polyhedron* poly, double& M, double& m) {
 	}
 }
 
-double findMedian(Polyhedron* poly, double& m) {
+void findMedian(Polyhedron* poly, double& m) {
 	if (poly == nullptr || poly->nverts == 0) {
-		return 0.0;
+		m = 0.0;
 	}
 
 	std::vector<double> values;
