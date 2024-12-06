@@ -302,7 +302,6 @@ double rgb_to_xyz_helper(double c) {
     return c / 12.92;
 }
 
-// Helper function to handle XYZ to LAB conversion step
 double xyz_to_lab_helper(double c) {
     if (c > 0.008856) {
         return std::pow(c, 1.0/3.0);
