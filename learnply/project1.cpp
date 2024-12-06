@@ -65,28 +65,6 @@ void applyCustomDivergent(Polyhedron* poly, icVector3& color1, icVector3& color2
 	}
 }
 
-void greyscale(Polyhedron* poly) {
-
-	double M, m;
-	// find minimum and maximum scalar values
-	findMm(poly, M, m);
-
-	// traverse the vertices
-	for (auto i = 0; i < poly->nverts; i++)
-	{
-		auto& vertex = poly->vlist[i];
-		double s_v = vertex->scalar;
-
-		// set the RGB values based on the scalar value of the vertex
-		// (s_v - m)/(M-m)
-		double grey = (s_v - m) / (M - m);
-
-		// Set all RGB values to grey
-		vertex->R = vertex->G = vertex->B = grey;
-	}
-	
-}
-
 void applyCustomMultiHue(Polyhedron* poly, std::vector<icVector3>& colors) {
     if (!stats.isInitialized)
         initializeStats(poly);
@@ -112,6 +90,28 @@ void applyCustomMultiHue(Polyhedron* poly, std::vector<icVector3>& colors) {
         vertex->G = colors[color1Idx].y * interp + colors[color2Idx].y * (1 - interp);
         vertex->B = colors[color1Idx].z * interp + colors[color2Idx].z * (1 - interp);
     }
+}
+
+void greyscale(Polyhedron* poly) {
+
+	double M, m;
+	// find minimum and maximum scalar values
+	findMm(poly, M, m);
+
+	// traverse the vertices
+	for (auto i = 0; i < poly->nverts; i++)
+	{
+		auto& vertex = poly->vlist[i];
+		double s_v = vertex->scalar;
+
+		// set the RGB values based on the scalar value of the vertex
+		// (s_v - m)/(M-m)
+		double grey = (s_v - m) / (M - m);
+
+		// Set all RGB values to grey
+		vertex->R = vertex->G = vertex->B = grey;
+	}
+	
 }
 
 void multi(Polyhedron* poly) {
