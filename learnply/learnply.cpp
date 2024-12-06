@@ -728,6 +728,12 @@ Callback function for mouse wheel scroll
 ******************************************************************************/
 
 void mousewheel(int wheel, int direction, int x, int y) {
+	ImGuiIO& io = ImGui::GetIO();
+	io.AddMouseWheelEvent(x * direction, y * direction);
+	// Early return if mouse over window
+	if (io.WantCaptureMouse)
+		return;
+	
 	if (direction == 1) {
 		zoom *= zoomspeed;
 		glutPostRedisplay();
