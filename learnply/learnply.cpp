@@ -235,6 +235,9 @@ void MainLoopStep()
 			break;
 		case 2:
 			multi_hue_window(&choices);
+			if (!choices.all_colors.empty()) {
+				applyCustomMultiHue(poly, choices.all_colors);
+			}
 			break;
 		case 3:
 			rainbow_window(&choices);

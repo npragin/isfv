@@ -18,6 +18,9 @@ void create_and_push_color(color_choices* colors, int n)
         colors->all_colors[i].z = color[2];
 		ImGui::PopID();
 	}
+
+	for (int i = 0; i < colors->all_colors.size() - n; i++)
+		colors->all_colors.pop_back();
 }
 
 void single_hue_window(color_choices* colors)

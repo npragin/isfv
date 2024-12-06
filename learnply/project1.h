@@ -1,10 +1,13 @@
 #pragma once
 #include "polyhedron.h"
+#include <vector>
 
 // Final
 void applyCustomSingleHue(Polyhedron* poly, icVector3& color);
 
 void applyCustomDivergent(Polyhedron* poly, icVector3& color1, icVector3& color2);
+
+void applyCustomMultiHue(Polyhedron* poly, std::vector<icVector3>& colors);
 
 void initializeStats(Polyhedron* poly);
  

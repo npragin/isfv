@@ -33,6 +33,7 @@ void applyCustomDivergent(Polyhedron* poly, icVector3& color1, icVector3& color2
 	if (!stats.isInitialized)
 		initializeStats(poly);
 
+	// Application uses white for median color
 	icVector3 medianColor = icVector3(1.0, 1.0, 1.0);
 
 	for (int i = 0; i < poly->nverts; i++) {
@@ -84,6 +85,33 @@ void greyscale(Polyhedron* poly) {
 		vertex->R = vertex->G = vertex->B = grey;
 	}
 	
+}
+
+void applyCustomMultiHue(Polyhedron* poly, std::vector<icVector3>& colors) {
+    if (!stats.isInitialized)
+        initializeStats(poly);
+
+    for (int i = 0; i < poly->nverts; i++) {
+        auto& vertex = poly->vlist[i];
+        double s_v = vertex->scalar;
+
+        double pos = (1.0 - (s_v - stats.min) / (stats.max - stats.min)) * (colors.size() - 1);
+        int color1Idx = pos;
+        int color2Idx;
+
+        // Handles max value while maintaining color1Idx < color2Idx
+        if (color1Idx == colors.size() - 1) {
+            color2Idx = color1Idx;
+            color1Idx = color2Idx - 1;
+        } else
+            color2Idx = color1Idx + 1;
+
+        double interp = 1 - (pos - (double)color1Idx);
+		
+        vertex->R = colors[color1Idx].x * interp + colors[color2Idx].x * (1 - interp);
+        vertex->G = colors[color1Idx].y * interp + colors[color2Idx].y * (1 - interp);
+        vertex->B = colors[color1Idx].z * interp + colors[color2Idx].z * (1 - interp);
+    }
 }
 
 void multi(Polyhedron* poly) {
