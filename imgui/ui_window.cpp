@@ -1,16 +1,25 @@
 #include "ui_window.h"
 #include "imgui.h"
-
 #include<iostream>
 
+static DefaultColors defaultColors;
 
 void create_and_push_color(color_choices* colors, int n)
 {	
 	for (int i = 0; i < n; i++)
 	{
-		// Ensure a color exists in the struct to be modified with the color editor
-		if(i >= colors->all_colors.size())
-			colors->all_colors.push_back(colors->base_color);
+		// If we switched maps, initialize with defaults
+		// Othewrise, ensure a color exists in the struct to be modified with the color editor
+		if(i >= colors->all_colors.size()) {
+			if (n == 1)
+				colors->all_colors = defaultColors.singleHue;
+			else if (n == 2 && colors->multi_hue_count == 0)
+				colors->all_colors = defaultColors.divergent;
+			else if (n == 2)
+				colors->all_colors = defaultColors.multiHue;
+			else
+				colors->all_colors.push_back(colors->base_color);
+		}
 		
 		// Determine label of color editor
 		static char label[10];
@@ -37,18 +46,20 @@ void create_and_push_color(color_choices* colors, int n)
 
 void single_hue_window(color_choices* colors)
 {
+	colors->multi_hue_count == 0;
 	create_and_push_color(colors, 1);
 }
 
 void divergent_window(color_choices* colors)
 {
+	colors->multi_hue_count == 0;
 	create_and_push_color(colors, 2);
 }
 
 void multi_hue_window(color_choices* colors)
 {
 	if (colors->multi_hue_count == 0) {  // Initialize if not set
-        colors->multi_hue_count = 2;
+        colors->multi_hue_count = 4;
     }
 	
 	if (ImGui::Button("Add Hue") && colors->multi_hue_count < 9) // Buttons return true when clicked (most widgets return true when edited/activated)
@@ -62,6 +73,7 @@ void multi_hue_window(color_choices* colors)
 
 void rainbow_window(color_choices* colors)
 {
+	colors->multi_hue_count == 0;
 	const char* items[] = { "Turbo", "Jet", "RGB Rainbow" };
 	static int current_index = 0;
 
