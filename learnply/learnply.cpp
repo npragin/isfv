@@ -224,7 +224,7 @@ void MainLoopStep()
 		case 0:
 			single_hue_window(&choices);
 			if (!choices.all_colors.empty()) {
-                    applyCustomSingleHue(poly, choices.all_colors[0]);
+                applyCustomSingleHue(poly, choices.all_colors[0]);
 			}
 			break;
 		case 1:

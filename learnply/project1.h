@@ -3,6 +3,15 @@
 
 // Final
 void applyCustomSingleHue(Polyhedron* poly, icVector3& color);
+ 
+void initializeStats(Polyhedron* poly);
+ 
+struct DataStats {
+	double median;
+	double min;
+	double max;
+	bool isInitialized = false;
+};
 
 // q1
 void greyscale(Polyhedron* poly);

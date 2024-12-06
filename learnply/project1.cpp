@@ -1,9 +1,12 @@
 #include "project1.h"
 #include <algorithm>
+#include <vector>
+
+static DataStats stats;
 
 void applyCustomSingleHue(Polyhedron* poly, icVector3& color) {
-    double M, m;
-    findMm(poly, M, m);
+	if (!stats.isInitialized)
+		initializeStats(poly);
 
 	icVector3 M_hsv;
 	RGBtoHSV(M_hsv, color);
@@ -13,8 +16,8 @@ void applyCustomSingleHue(Polyhedron* poly, icVector3& color) {
         double s_v = vertex->scalar;
 
 		// Keep hue constant, vary saturation and value
-		double intensity = (s_v - m) / (M - m);
-        
+		double intensity = (s_v - stats.min) / (stats.max - stats.min);
+
         // Convert back to RGB
 		icVector3 newHSV(M_hsv.x, intensity, intensity);
         icVector3 new_RGB;
@@ -229,6 +232,11 @@ void HSVtoRGB(icVector3& hsv, icVector3& rgb) {
 	rgb.z = (b + m);
 }
 
+void initializeStats(Polyhedron* poly) {
+	findMm(poly, stats.max, stats.min);
+	findMedian(poly, stats.median);
+}
+
 void findMm(Polyhedron* poly, double& M, double& m) {
 
 	// initialize for min and max
@@ -250,5 +258,29 @@ void findMm(Polyhedron* poly, double& M, double& m) {
 		{
 			M = vertex->scalar;
 		}
+	}
+}
+
+double findMedian(Polyhedron* poly, double& m) {
+	if (poly == nullptr || poly->nverts == 0) {
+		return 0.0;
+	}
+
+	std::vector<double> values;
+	values.reserve(poly->nverts);
+
+	for (auto i = 0; i < poly->nverts; i++) {
+		values.push_back(poly->vlist[i]->scalar);
+	}
+
+	std::sort(values.begin(), values.end());
+
+	// Find median
+	if (poly->nverts % 2 == 0) {
+		size_t mid = poly->nverts / 2;
+		m = (values[mid - 1] + values[mid]) / 2.0;
+	}
+	else {
+		m = values[poly->nverts / 2];
 	}
 }
