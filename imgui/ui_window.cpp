@@ -8,11 +8,23 @@ void create_and_push_color(color_choices* colors, int n)
 {	
 	for (int i = 0; i < n; i++)
 	{
+		// Ensure a color exists in the struct to be modified with the color editor
 		if(i >= colors->all_colors.size())
 			colors->all_colors.push_back(colors->base_color);
+		
+		// Determine label of color editor
+		static char label[10];
+		if (i == 0)
+			sprintf(label, "Max");
+		else if (i == n - 1)
+			sprintf(label, "Min");
+		else
+			sprintf(label, "Color %d", i);
+		
+		// Create color editor
 		ImGui::PushID(i);
 		float* color = new float[3]{(float)colors->all_colors[i].x, (float)colors->all_colors[i].y, (float)colors->all_colors[i].z};
-		ImGui::ColorEdit3("Color", color);
+		ImGui::ColorEdit3(label, color);
 		colors->all_colors[i].x = color[0];
         colors->all_colors[i].y = color[1];
         colors->all_colors[i].z = color[2];
