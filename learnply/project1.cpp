@@ -34,7 +34,7 @@ void applyCustomDivergent(Polyhedron* poly, icVector3& color1, icVector3& color2
 		initializeStats(poly);
 
 	// Application uses white for median color
-	icVector3 medianColor = icVector3(1.0, 1.0, 1.0);
+	icVector3 medianColor = icVector3(0.91, 0.91, 0.91);
 
 	for (int i = 0; i < poly->nverts; i++) {
 		auto& vertex = poly->vlist[i];
