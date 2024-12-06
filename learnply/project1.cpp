@@ -295,6 +295,55 @@ void HSVtoRGB(icVector3& hsv, icVector3& rgb) {
 	rgb.z = (b + m);
 }
 
+double rgb_to_xyz_helper(double c) {
+    if (c > 0.04045) {
+        return std::pow((c + 0.055) / 1.055, 2.4);
+    }
+    return c / 12.92;
+}
+
+// Helper function to handle XYZ to LAB conversion step
+double xyz_to_lab_helper(double c) {
+    if (c > 0.008856) {
+        return std::pow(c, 1.0/3.0);
+    }
+    return (7.787 * c) + (16.0/116.0);
+}
+
+icVector3 rgb_to_lab(icVector3 rgb) {
+	icVector3 lab;
+
+	// Convert RGB to XYZ
+    double r2 = rgb_to_xyz_helper(rgb.x);
+    double g2 = rgb_to_xyz_helper(rgb.y);
+    double b2 = rgb_to_xyz_helper(rgb.z);
+
+    double x = r2 * 0.4124564 + g2 * 0.3575761 + b2 * 0.1804375;
+    double y = r2 * 0.2126729 + g2 * 0.7151522 + b2 * 0.0721750;
+    double z = r2 * 0.0193339 + g2 * 0.1191920 + b2 * 0.9503041;
+
+    // D65 reference white point
+    const double xn = 0.95047;
+    const double yn = 1.0;
+    const double zn = 1.08883;
+
+    // Normalize XYZ values
+    x /= xn;
+    y /= yn;
+    z /= zn;
+
+    // Convert XYZ to LAB
+    double fx = xyz_to_lab_helper(x);
+    double fy = xyz_to_lab_helper(y);
+    double fz = xyz_to_lab_helper(z);
+
+    lab.x = (116.0 * fy) - 16.0;
+    lab.y = 500.0 * (fx - fy);
+    lab.z = 200.0 * (fy - fz);
+
+    return lab;
+}
+
 void initializeStats(Polyhedron* poly) {
 	findMm(poly, stats.max, stats.min);
 	findMedian(poly, stats.median);
