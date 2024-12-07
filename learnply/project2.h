@@ -15,7 +15,7 @@ enum COLOR_SCHEME
 	SOLID,
 	GRAYSCALE,
 	BICOLOR,
-	RAINBOW
+	RAINBOW2
 };
 
 struct CriticalPoint

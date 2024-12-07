@@ -443,7 +443,7 @@ void ScalarTopology::drawSpacedContours(bool use_height)
 			color = getGrayscaleColor(s);
 		else if (color_scheme == COLOR_SCHEME::BICOLOR)
 			color = getBiColor(s);
-		else if (color_scheme == COLOR_SCHEME::RAINBOW)
+		else if (color_scheme == COLOR_SCHEME::RAINBOW2)
 			color = getRainbowColor(s);
 
 		if (use_height)
