@@ -72,7 +72,6 @@ void multi_hue_window(color_choices* colors)
 
 void rainbow_window(color_choices* colors)
 {
-	colors->multi_hue_count == 0;
 	const char* items[] = { "Turbo", "Jet", "RGB Rainbow" };
 	static int current_index = 0;
 
