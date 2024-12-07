@@ -10,9 +10,16 @@ enum COLOR_MAP {
 	RAINBOW
 };
 
+enum RAINBOW_TYPE {
+	RGB,
+	JET,
+	TURBO
+};
+
 struct color_choices {
 	std::vector<icVector3> all_colors;
 	COLOR_MAP map_type = SINGLE;
+	RAINBOW_TYPE rainbow_type = RGB;
 	icVector3 base_color = icVector3(1.0, 1.0, 1.0);
 	int multi_hue_count = 4;
 	float log_lab = 0.0;

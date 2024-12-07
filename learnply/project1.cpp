@@ -93,6 +93,26 @@ void applyCustomMultiHue(Polyhedron* poly, std::vector<icVector3>& colors) {
     }
 }
 
+void applyRgbRainbow(Polyhedron* poly) {
+	    if (!stats.isInitialized)
+        initializeStats(poly);
+
+    for (int i = 0; i < poly->nverts; i++) {
+        auto& vertex = poly->vlist[i];
+        double s_v = vertex->scalar;
+
+		double normalized = (s_v - stats.min) / (stats.max - stats.min);
+
+		icVector3 hsv(normalized * 270, 1.0, 1.0);
+		icVector3 rgb;
+		HSVtoRGB(hsv, rgb);
+
+		vertex->R = rgb.x;
+		vertex->G = rgb.y;
+		vertex->B = rgb.z;
+	}
+}
+
 double calculateLogLabLength(std::vector<icVector3>& colors) {
 	// Handle Single Hue color map case
 	if (colors.size() == 1) {

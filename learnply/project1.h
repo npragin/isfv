@@ -9,6 +9,8 @@ void applyCustomDivergent(Polyhedron* poly, icVector3& color1, icVector3& color2
 
 void applyCustomMultiHue(Polyhedron* poly, std::vector<icVector3>& colors);
 
+void applyRgbRainbow(Polyhedron* poly);
+
 void initializeStats(Polyhedron* poly);
  
 struct DataStats {

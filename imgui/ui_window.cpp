@@ -72,7 +72,7 @@ void multi_hue_window(color_choices* colors)
 
 void rainbow_window(color_choices* colors)
 {
-	const char* items[] = { "Turbo", "Jet", "RGB Rainbow" };
+	const char* items[] = { "RGB Rainbow", "Jet", "Turbo" };
 	static int current_index = 0;
 
 	if (ImGui::BeginCombo("Options", items[current_index])) // The second parameter is the label previewed before opening the combo.
