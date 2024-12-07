@@ -8,6 +8,7 @@
 #include "imgui.h"
 #include "imgui_impl_glut.h"
 #include "imgui_impl_opengl3.h"
+#include "imfilebrowser.h"
 
 #include "glError.h"
 #include "GL/glew.h"
@@ -64,6 +65,9 @@ float rotmat[4][4];
 double zoom = 1.0;
 double translation[2] = { 0, 0 };
 int mouse_mode = -2;	// -1 = no action, 1 = tranlate y, 2 = rotate
+
+// create a file browser instance
+ImGui::FileBrowser fileDialog;
 
 
 /******************************************************************************
@@ -125,7 +129,7 @@ int main(int argc, char* argv[])
 
 	/*initialize openGL*/
 	init();
-
+	glutDisplayFunc(MainLoopStep);
 	/*the render function and callback registration*/
 	glutKeyboardFunc(keyboard);
 	glutDisplayFunc(display);
@@ -150,6 +154,10 @@ int main(int argc, char* argv[])
 
 	ImGui_ImplGLUT_Init();
 	ImGui_ImplOpenGL3_Init();
+
+	// set file browser properties
+	fileDialog.SetTitle("Choose Scalar Field");
+	fileDialog.SetTypeFilters({ ".ply" });
 	/*ui code end*/
 	
 	/*event processing loop*/
@@ -162,8 +170,8 @@ int main(int argc, char* argv[])
 		ibfv->freepixels();
 		delete(ibfv);
 	}
-	delete(stopo);
-	delete(poly);
+	//delete(stopo);
+	//delete(poly);
 	
 	/*cleanup ui*/
 	ImGui_ImplOpenGL3_Shutdown();
@@ -174,7 +182,7 @@ int main(int argc, char* argv[])
 }
 
 /******************************************************************************
-UI demo code
+UI code
 ******************************************************************************/
 
 void MainLoopStep()
@@ -188,6 +196,10 @@ void MainLoopStep()
 	// Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
 	{
 		ImGui::Begin("Color Scheme");                          // Create a window called "Color Scheme" and append into it.
+		// Open file dialog when user clicks this button
+		if (ImGui::Button("Choose Scalar Field"))
+			fileDialog.Open();
+		
 		// Checkbox for height
 		ImGui::Checkbox("Show Height", &use_height);
 		if (use_height)
@@ -246,6 +258,14 @@ void MainLoopStep()
 		ImGui::Text("Log-LAB length: %.2f", calculateLogLabLength(choices.all_colors));
 		// End window
 		ImGui::End();
+	}
+
+	fileDialog.Display();
+
+	if (fileDialog.HasSelected())
+	{
+		std::cout << "Selected filename" << fileDialog.GetSelected().string() << std::endl;
+		fileDialog.ClearSelected();
 	}
 
 	// Rendering
