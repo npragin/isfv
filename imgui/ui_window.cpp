@@ -8,8 +8,7 @@ void create_and_push_color(color_choices* colors, int n)
 {	
 	for (int i = 0; i < n; i++)
 	{
-		// If we switched maps, initialize with defaults
-		// Othewrise, ensure a color exists in the struct to be modified with the color editor
+		// Ensure a color exists in the struct to be modified with the color editor
 		if(i >= colors->all_colors.size())
 			colors->all_colors.push_back(colors->base_color);
 		
