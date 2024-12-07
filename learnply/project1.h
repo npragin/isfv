@@ -33,6 +33,12 @@ void RGBtoHSV(icVector3& hsv, icVector3& rgb);
 //convert HSVtoRGB
 void HSVtoRGB(icVector3& hsv, icVector3& rgb);
 
+double RGBtoXYZ(double c);
+
+double XYZtoLAB(double c);
+
+icVector3 RGBtoLAB(icVector3 rgb);
+
 double calculateLogLabLength(std::vector<icVector3>& colors);
 
 //q2
