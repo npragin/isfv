@@ -33,6 +33,8 @@ void RGBtoHSV(icVector3& hsv, icVector3& rgb);
 //convert HSVtoRGB
 void HSVtoRGB(icVector3& hsv, icVector3& rgb);
 
+double calculateLogLabLength(std::vector<icVector3>& colors);
+
 //q2
 void height(Polyhedron* poly);
 void resetHeight(Polyhedron* poly);

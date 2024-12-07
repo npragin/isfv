@@ -1,6 +1,7 @@
 #include "project1.h"
 #include <algorithm>
 #include <vector>
+#include <cmath>
 
 static DataStats stats;
 
@@ -90,6 +91,30 @@ void applyCustomMultiHue(Polyhedron* poly, std::vector<icVector3>& colors) {
         vertex->G = colors[color1Idx].y * interp + colors[color2Idx].y * (1 - interp);
         vertex->B = colors[color1Idx].z * interp + colors[color2Idx].z * (1 - interp);
     }
+}
+
+double calculateLogLabLength(std::vector<icVector3>& colors) {
+	// Handle Single Hue color map case
+	if (colors.size() == 1) {
+		return sqrt(pow(colors[0].x, 2) + pow(colors[0].y, 2) + pow(colors[0].z, 2));
+	}
+
+	std::vector<icVector3> labColors;
+	labColors.reserve(colors.size());
+	
+	for (int i = 0; i < colors.size(); i++) {
+		labColors.push_back(RGBtoLAB(colors[i]));
+	}
+
+	double labLength = 0;
+	
+	for (int i = 1; i < labColors.size(); i++) {
+		labLength += sqrt(pow(labColors[i].x - labColors[i - 1].x, 2) +
+			pow(labColors[i].y - labColors[i - 1].y, 2) +
+			pow(labColors[i].z - labColors[i - 1].z, 2));
+	}
+
+	return std::log(labLength);
 }
 
 void greyscale(Polyhedron* poly) {

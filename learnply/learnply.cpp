@@ -243,7 +243,7 @@ void MainLoopStep()
 			rainbow_window(&choices);
 			break;
 		}
-		ImGui::Text("Log-LAB length: %.2f", choices.log_lab);
+		ImGui::Text("Log-LAB length: %.2f", calculateLogLabLength(choices.all_colors));
 		// End window
 		ImGui::End();
 	}
