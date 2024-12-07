@@ -295,27 +295,27 @@ void HSVtoRGB(icVector3& hsv, icVector3& rgb) {
 	rgb.z = (b + m);
 }
 
-double rgb_to_xyz_helper(double c) {
+double RGBtoXYZ(double c) {
     if (c > 0.04045) {
         return std::pow((c + 0.055) / 1.055, 2.4);
     }
     return c / 12.92;
 }
 
-double xyz_to_lab_helper(double c) {
+double XYZtoLAB(double c) {
     if (c > 0.008856) {
         return std::pow(c, 1.0/3.0);
     }
     return (7.787 * c) + (16.0/116.0);
 }
 
-icVector3 rgb_to_lab(icVector3 rgb) {
+icVector3 RGBtoLAB(icVector3 rgb) {
 	icVector3 lab;
 
 	// Convert RGB to XYZ
-    double r2 = rgb_to_xyz_helper(rgb.x);
-    double g2 = rgb_to_xyz_helper(rgb.y);
-    double b2 = rgb_to_xyz_helper(rgb.z);
+    double r2 = RGBtoXYZ(rgb.x);
+    double g2 = RGBtoXYZ(rgb.y);
+    double b2 = RGBtoXYZ(rgb.z);
 
     double x = r2 * 0.4124564 + g2 * 0.3575761 + b2 * 0.1804375;
     double y = r2 * 0.2126729 + g2 * 0.7151522 + b2 * 0.0721750;
@@ -332,9 +332,9 @@ icVector3 rgb_to_lab(icVector3 rgb) {
     z /= zn;
 
     // Convert XYZ to LAB
-    double fx = xyz_to_lab_helper(x);
-    double fy = xyz_to_lab_helper(y);
-    double fz = xyz_to_lab_helper(z);
+    double fx = XYZtoLAB(x);
+    double fy = XYZtoLAB(y);
+    double fz = XYZtoLAB(z);
 
     lab.x = (116.0 * fy) - 16.0;
     lab.y = 500.0 * (fx - fy);
