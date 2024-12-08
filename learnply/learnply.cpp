@@ -253,9 +253,10 @@ void MainLoopStep()
 			break;
 		case 3:
 			rainbow_window(&choices);
-			if (choices.rainbow_type == RGB) {
+			if (choices.rainbow_type == RGB)
 				applyRgbRainbow(poly);
-			}
+			else if (choices.rainbow_type == JET)
+				applyJetRainbow(poly);
 			break;
 		}
 		ImGui::Text("Log-LAB length: %.2f", calculateLogLabLength(choices.all_colors));

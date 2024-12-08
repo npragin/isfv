@@ -85,6 +85,13 @@ void rainbow_window(color_choices* colors)
 				//std::cout << n << std::endl;
 				current_index = n;
 				ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+
+				if (current_index == 0)
+					colors->rainbow_type = RGB;
+				else if (current_index == 1)
+					colors->rainbow_type = JET;
+				else if (current_index == 1)
+					colors->rainbow_type = TURBO;
 			}
 		}
 		ImGui::EndCombo();

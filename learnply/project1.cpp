@@ -94,7 +94,7 @@ void applyCustomMultiHue(Polyhedron* poly, std::vector<icVector3>& colors) {
 }
 
 void applyRgbRainbow(Polyhedron* poly) {
-	    if (!stats.isInitialized)
+	if (!stats.isInitialized)
         initializeStats(poly);
 
     for (int i = 0; i < poly->nverts; i++) {
@@ -110,6 +110,26 @@ void applyRgbRainbow(Polyhedron* poly) {
 		vertex->R = rgb.x;
 		vertex->G = rgb.y;
 		vertex->B = rgb.z;
+	}
+}
+
+void applyJetRainbow(Polyhedron* poly) {
+	if (!stats.isInitialized)
+        initializeStats(poly);
+
+    for (int i = 0; i < poly->nverts; i++) {
+        auto& vertex = poly->vlist[i];
+        double s_v = vertex->scalar;
+
+		double normalized = (s_v - stats.min) / (stats.max - stats.min);
+
+		double r = std::max(0.0, std::min(1.0, 1.5 - std::abs(4.0 * normalized - 3.0)));
+        double g = std::max(0.0, std::min(1.0, 1.5 - std::abs(4.0 * normalized - 2.0)));
+        double b = std::max(0.0, std::min(1.0, 1.5 - std::abs(4.0 * normalized - 1.0)));
+
+        vertex->R = r;
+        vertex->G = g;
+        vertex->B = b;
 	}
 }
 

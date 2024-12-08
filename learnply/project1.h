@@ -11,6 +11,8 @@ void applyCustomMultiHue(Polyhedron* poly, std::vector<icVector3>& colors);
 
 void applyRgbRainbow(Polyhedron* poly);
 
+void applyJetRainbow(Polyhedron* poly);
+
 void initializeStats(Polyhedron* poly);
  
 struct DataStats {
