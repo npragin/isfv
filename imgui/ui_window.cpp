@@ -90,7 +90,7 @@ void rainbow_window(color_choices* colors)
 					colors->rainbow_type = RGB;
 				else if (current_index == 1)
 					colors->rainbow_type = JET;
-				else if (current_index == 1)
+				else if (current_index == 2)
 					colors->rainbow_type = TURBO;
 			}
 		}
