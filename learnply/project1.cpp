@@ -103,7 +103,7 @@ void applyRgbRainbow(Polyhedron* poly) {
 
 		double normalized = (s_v - stats.min) / (stats.max - stats.min);
 
-		icVector3 hsv(normalized * 270, 1.0, 1.0);
+		icVector3 hsv((1.0 - normalized) * 270, 1.0, 1.0);
 		icVector3 rgb;
 		HSVtoRGB(hsv, rgb);
 
