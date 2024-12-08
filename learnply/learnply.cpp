@@ -257,6 +257,8 @@ void MainLoopStep()
 				applyRgbRainbow(poly);
 			else if (choices.rainbow_type == JET)
 				applyJetRainbow(poly);
+			else if (choices.rainbow_type == TURBO)
+				applyTurboRainbow(poly);
 			break;
 		}
 		ImGui::Text("Log-LAB length: %.2f", calculateLogLabLength(choices.all_colors));

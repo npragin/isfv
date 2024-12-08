@@ -133,6 +133,45 @@ void applyJetRainbow(Polyhedron* poly) {
 	}
 }
 
+void applyTurboRainbow(Polyhedron* poly) {
+    if (!stats.isInitialized)
+        initializeStats(poly);
+
+    const double kRedVec4[4] = { 0.13572138, 4.61539260, -42.66032258, 132.13108234 };
+    const double kGreenVec4[4] = { 0.09140261, 2.19418839, 4.84296658, -14.18503333 };
+    const double kBlueVec4[4] = { 0.10667330, 12.64194608, -60.58204836, 110.36276771 };
+    const double kRedVec2[2] = { -152.94239396, 59.28637943 };
+    const double kGreenVec2[2] = { 4.27729857, 2.82956604 };
+    const double kBlueVec2[2] = { -89.90310912, 27.34824973 };
+
+    for (int i = 0; i < poly->nverts; i++) {
+        auto& vertex = poly->vlist[i];
+        double s_v = vertex->scalar;
+
+        double normalized = (s_v - stats.min) / (stats.max - stats.min);
+
+        double v4[4] = { 1.0, normalized, normalized * normalized, normalized * normalized * normalized };
+        double v2[2] = { v4[2] * v4[2], v4[2] * v4[3] };
+
+        icVector3 rgb(0.0, 0.0, 0.0);
+
+        for (int i = 0; i < 4; i++) {
+            rgb.x += v4[i] * kRedVec4[i];
+            rgb.y += v4[i] * kGreenVec4[i];
+            rgb.z += v4[i] * kBlueVec4[i];
+        }
+
+        for (int i = 0; i < 2; i++) {
+            rgb.x += v2[i] * kRedVec2[i];
+            rgb.y += v2[i] * kGreenVec2[i];
+            rgb.z += v2[i] * kBlueVec2[i];
+        }
+        vertex->R = rgb.x;
+        vertex->G = rgb.y;
+        vertex->B = rgb.z;
+    }
+}
+
 double calculateLogLabLength(std::vector<icVector3>& colors) {
 	// Handle Single Hue color map case
 	if (colors.size() == 1) {

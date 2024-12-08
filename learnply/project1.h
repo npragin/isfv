@@ -13,6 +13,8 @@ void applyRgbRainbow(Polyhedron* poly);
 
 void applyJetRainbow(Polyhedron* poly);
 
+void applyTurboRainbow(Polyhedron* poly);
+
 void initializeStats(Polyhedron* poly);
  
 struct DataStats {
