@@ -270,7 +270,7 @@ void MainLoopStep()
 			logLabLength = 5.13;
 		else if (choices.rainbow_type == TURBO)
 			logLabLength = 11.51;
-		ImGui::Text("Log-LAB length: %.2f", calculateLogLabLength(choices.all_colors));
+		ImGui::Text("Log-LAB length: %.2f", logLabLength);
 		// End window
 		ImGui::End();
 	}
