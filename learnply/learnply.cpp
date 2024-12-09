@@ -261,6 +261,15 @@ void MainLoopStep()
 				applyTurboRainbow(poly);
 			break;
 		}
+		double logLabLength;
+		if (choices.map_type != RAINBOW)
+			logLabLength = calculateLogLabLength(choices.all_colors);
+		else if (choices.rainbow_type == RGB)
+			logLabLength = 5.57;
+		else if (choices.rainbow_type == JET)
+			logLabLength = 5.13;
+		else if (choices.rainbow_type == TURBO)
+			logLabLength = 11.51;
 		ImGui::Text("Log-LAB length: %.2f", calculateLogLabLength(choices.all_colors));
 		// End window
 		ImGui::End();
