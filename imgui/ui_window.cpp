@@ -4,14 +4,14 @@
 
 static Colors savedColors;
 
-void create_and_push_color(color_choices* colors, int n)
+void create_and_push_color(color_choices* colors, int n, ImGuiColorEditFlags flags = 0)
 {	
 	for (int i = 0; i < n; i++)
 	{
 		// Ensure a color exists in the struct to be modified with the color editor
-		if(i >= colors->all_colors.size())
+		if (i >= colors->all_colors.size())
 			colors->all_colors.push_back(colors->base_color);
-		
+
 		// Determine label of color editor
 		static char label[10];
 		if (i == 0)
@@ -20,11 +20,11 @@ void create_and_push_color(color_choices* colors, int n)
 			sprintf(label, "Min");
 		else
 			sprintf(label, "Color %d", i);
-		
+
 		// Create color editor
 		ImGui::PushID(i);
-		float* color = new float[3]{(float)colors->all_colors[i].x, (float)colors->all_colors[i].y, (float)colors->all_colors[i].z};
-		ImGui::ColorEdit3(label, color);
+		float* color = new float[3] {(float)colors->all_colors[i].x, (float)colors->all_colors[i].y, (float)colors->all_colors[i].z};
+		ImGui::ColorEdit3(label, color, flags);
 		colors->all_colors[i].x = color[0];
         colors->all_colors[i].y = color[1];
         colors->all_colors[i].z = color[2];
@@ -46,7 +46,8 @@ void single_hue_window(color_choices* colors)
 {
 	colors->map_type = SINGLE;
 	colors->all_colors = savedColors.singleHue;
-	create_and_push_color(colors, 1);
+	ImGuiColorEditFlags flags = (ImGuiColorEditFlags_PickerHueWheel);
+	create_and_push_color(colors, 1, flags);
 }
 
 void divergent_window(color_choices* colors)
