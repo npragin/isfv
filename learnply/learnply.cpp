@@ -8,7 +8,6 @@
 #include "imgui.h"
 #include "imgui_impl_glut.h"
 #include "imgui_impl_opengl3.h"
-#include "imfilebrowser.h"
 
 #include "glError.h"
 #include "GL/glew.h"
