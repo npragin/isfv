@@ -1,6 +1,5 @@
 #include "ui_window.h"
 #include "imgui.h"
-#include <iostream>
 
 static Colors savedColors;
 

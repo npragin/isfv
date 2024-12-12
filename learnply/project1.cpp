@@ -173,11 +173,6 @@ void applyTurboRainbow(Polyhedron* poly) {
 }
 
 double calculateLogLabLength(std::vector<icVector3>& colors) {
-	// Handle Single Hue color map case
-	if (colors.size() == 1) {
-		return sqrt(pow(colors[0].x, 2) + pow(colors[0].y, 2) + pow(colors[0].z, 2));
-	}
-
 	std::vector<icVector3> labColors;
 	labColors.reserve(colors.size());
 	
@@ -185,8 +180,12 @@ double calculateLogLabLength(std::vector<icVector3>& colors) {
 		labColors.push_back(RGBtoLAB(colors[i]));
 	}
 
+	// Handle Single Hue color map case
+	if (colors.size() == 1) {
+		return log(sqrt(pow(labColors[0].x, 2) + pow(labColors[0].y, 2) + pow(labColors[0].z, 2)));
+	}
+	// More than one hue
 	double labLength = 0;
-	
 	for (int i = 1; i < labColors.size(); i++) {
 		labLength += sqrt(pow(labColors[i].x - labColors[i - 1].x, 2) +
 			pow(labColors[i].y - labColors[i - 1].y, 2) +
