@@ -97,3 +97,18 @@ Now, to set the argument, click on the text again, then click **Edit Scheme**. N
 ### Mac
 
 * The window is unclosable and can only be closed using **Cmd+Q** while it is focused.
+
+## TODOs
+
+### Bugs
+
+* If you fullscreen the window, you can’t drag the polygon everywhere
+
+### Stretch Goals:
+
+* Choose and change the dataset within the application
+* Modify color input for a single hue to only select a hue, AKA eliminate the plane to modify saturation and vibrance
+* Find more data, cool data
+* Clean up the code (remove unneeded files and includes)
+* Color blindness simulation
+* Selection field for interpolation type
