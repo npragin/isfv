@@ -66,9 +66,6 @@ double zoom = 1.0;
 double translation[2] = { 0, 0 };
 int mouse_mode = -2;	// -1 = no action, 1 = tranlate y, 2 = rotate
 
-// create a file browser instance
-ImGui::FileBrowser fileDialog;
-
 
 /******************************************************************************
 Forward declaration of functions
@@ -154,10 +151,6 @@ int main(int argc, char* argv[])
 
 	ImGui_ImplGLUT_Init();
 	ImGui_ImplOpenGL3_Init();
-
-	// set file browser properties
-	fileDialog.SetTitle("Choose Scalar Field");
-	fileDialog.SetTypeFilters({ ".ply" });
 	/*ui code end*/
 	
 	/*event processing loop*/
@@ -195,11 +188,7 @@ void MainLoopStep()
 
 	// Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
 	{
-		ImGui::Begin("Color Scheme");                          // Create a window called "Color Scheme" and append into it.
-		// Open file dialog when user clicks this button
-		if (ImGui::Button("Choose Scalar Field"))
-			fileDialog.Open();
-		
+		ImGui::Begin("Color Scheme");                          // Create a window called "Color Scheme" and append into it.	
 		// Checkbox for height
 		ImGui::Checkbox("Show Height", &use_height);
 		if (use_height)
@@ -273,14 +262,6 @@ void MainLoopStep()
 		ImGui::Text("Log-LAB length: %.2f", logLabLength);
 		// End window
 		ImGui::End();
-	}
-
-	fileDialog.Display();
-
-	if (fileDialog.HasSelected())
-	{
-		std::cout << "Selected filename" << fileDialog.GetSelected().string() << std::endl;
-		fileDialog.ClearSelected();
 	}
 
 	// Rendering
