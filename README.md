@@ -112,3 +112,5 @@ Now, to set the argument, click on the text again, then click **Edit Scheme**. N
 * Clean up the code (remove unneeded files and includes)
 * Color blindness simulation
 * Selection field for interpolation type
+* Ensure greyscale is somehow supported
+* Critical points
